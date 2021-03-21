@@ -7,7 +7,7 @@ import Posts from './Posts'
 
 const Application = () => {
   const [posts, setPosts] = useState([])
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState()
   const postsRef = firestore.collection('posts')
 
   const postsListener = () => {
@@ -28,11 +28,10 @@ const Application = () => {
     const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       console.log('userAuth:', userAuth)
 
-      if (!userAuth) {
-        const user = await createUserProfileDocument(userAuth)
-        console.log('userFromAuth:', user)
-      }
-      setUser(userAuth ? userAuth : {})
+      const user = await createUserProfileDocument(userAuth)
+      console.log('userFromAuth:', user)
+
+      setUser(user ? user : null)
     })
     return () => unsubscribeFromAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -22,10 +22,10 @@ export const signOut = () => auth.signOut()
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
-export const createUserProfileDocument = async (user, additionalData={}) => {
+export const createUserProfileDocument = async (user, additionalData = {}) => {
     if (!user) return;
     const userRef = firestore.doc(`users/${user.uid}`)
-    const snapshot =  userRef.get()
+    const snapshot = userRef.get()
     if (!snapshot.exists) {
         const { displayName, email, photoURL } = user
         console.log('displayName, email, photoURL:', displayName, email, photoURL)
@@ -55,7 +55,7 @@ export const getUserDocument = async (uid) => {
     try {
         const userDoc = await firestore.doc(`users/${uid}`).get()
         console.log('userDoc:', userDoc)
-        return { uid, ...userDoc }
+        return { uid, ...userDoc.data() }
     } catch (error) {
         console.log('error:', error)
         console.error('Error getting user', error)
