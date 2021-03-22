@@ -12,4 +12,3 @@ const Comments = ({ comments, onCreate }) => {
 }
 
 export default Comments;
-© 2021 GitHub, Inc.

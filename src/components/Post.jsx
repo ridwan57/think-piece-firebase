@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import moment from 'moment'
 import { firestore } from '../firebase'
 import { UserContext } from '../providers/UserProvider'
+import { Link, useHistory } from 'react-router-dom'
 
 const belongToCurrentUser = (currentUser, postAuthor) => {
   console.log('postAuthor:', postAuthor)
@@ -14,6 +15,7 @@ const belongToCurrentUser = (currentUser, postAuthor) => {
 
 const Post = ({ title, content, user, createdAt, stars, id }) => {
   const currentUser = useContext(UserContext)
+ 
 
   const postsRef = firestore.doc(`posts/${id}`)
   const posts = postsRef.get()
@@ -25,7 +27,9 @@ const Post = ({ title, content, user, createdAt, stars, id }) => {
   return (
     <article className='Post'>
       <div className='Post--content'>
-        <h3>{title}</h3>
+        <Link to={`posts/${id}`}>
+          <h3>{title}</h3>
+        </Link>
         <div>{content}</div>
       </div>
       <div className='Post--meta'>

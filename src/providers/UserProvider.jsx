@@ -11,12 +11,14 @@ export const UserProvider = ({ children }) => {
       console.log('userAuth:', userAuth)
 
       const userRef = await createUserProfileDocument(userAuth)
-      userRef.onSnapshot(snapshot => {
-        setUser({
-          uid: snapshot.id,
-          ...snapshot.data()
+      if (userRef) {
+        userRef.onSnapshot(snapshot => {
+          setUser({
+            uid: snapshot.id,
+            ...snapshot.data()
+          })
         })
-      })
+      }
     })
     return () => unsubscribeFromAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
