@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/storage'
 
 var firebaseConfig = {
     apiKey: "AIzaSyAQG1ks7N_A9AaDtI1Wl1fmVERBzzTe-fI",
@@ -18,6 +19,7 @@ window.firebase = firebase
 
 export const firestore = firebase.firestore()
 export const auth = firebase.auth()
+export const storage = firebase.storage()
 export const signOut = () => auth.signOut()
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
@@ -55,9 +57,9 @@ export const createUserProfileDocument = async (user, additionalData = {}) => {
 export const getUserDocument = async (uid) => {
     if (!uid) return null
     try {
-        const userDoc = await firestore.doc(`users/${uid}`).get()
-        console.log('userDoc:', userDoc.data())
-        return { uid, ...userDoc.data() }
+        const userRef = await firestore.doc(`users/${uid}`)
+        return userRef
+
     } catch (error) {
         console.log('error:', error)
         console.error('Error getting user', error)

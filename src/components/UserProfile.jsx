@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { auth, firestore } from '../firebase'
+import { auth, firestore, storage } from '../firebase'
 
+const initialState = { displayName: '' }
 export const UserProfile = () => {
-  const [credential, setCredential] = useState({ displayName: '' })
+  const [credential, setCredential] = useState(initialState)
   const { displayName } = credential
   let imageInput = null
   let userRef = null
+  let getUid = null
   if (auth.currentUser) {
-    const getUid = auth.currentUser.uid || ''
+    getUid = auth.currentUser.uid
     userRef = firestore.doc(`users/${getUid}`)
   }
 
@@ -20,10 +22,24 @@ export const UserProfile = () => {
   }
 
   const handleSubmit = event => {
+    const file = imageInput && imageInput.files[0]
     event.preventDefault()
     if (displayName) {
       userRef.update({ displayName }).then(() => console.log('Updated'))
     }
+    if (file) {
+      console.log('file:', file)
+      storage
+        .ref()
+        .child('users-profiles')
+        .child(getUid)
+        .child(file.name)
+        .put(file)
+        .then(response => response.ref.getDownloadURL())
+        .then(photoURL => userRef.update({ photoURL }))
+        .catch(err => console.log(err))
+    }
+    setCredential(initialState)
   }
 
   return (
