@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserContext } from '../providers/UserProvider'
 
 import CurrentUser from './CurrentUser'
 import SignInAndSignUp from './SignInAndSignUp'
 
-const Authentication = ({ user, loading }) => {
+const Authentication = ({ loading }) => {
+  const user = useContext(UserContext)
+
   console.log('user:', user)
   if (loading) return null
 

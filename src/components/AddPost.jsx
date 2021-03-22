@@ -4,7 +4,8 @@ import { auth, firestore } from '../firebase'
 const initialPost = { title: '', content: '', body: '' }
 const AddPost = () => {
   const [post, setPost] = useState(initialPost)
-  const { uid, displayName, email, photoURL } = auth.currentUser || {}
+  const { uid, displayName, email, photoURL, createdAt } =
+    auth.currentUser || {}
 
   const handleChange = event => {
     const { name, value } = event.target
@@ -37,7 +38,8 @@ const AddPost = () => {
         uid,
         displayName,
         email,
-        photoURL
+        photoURL,
+        createdAt
       },
       favorites: 0,
       createdAt: new Date()

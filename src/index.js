@@ -4,10 +4,16 @@ import './index.scss';
 
 import reportWebVitals from './reportWebVitals';
 import Application from './components/Application';
+import { PostsProvider } from './providers/PostsProvider';
+import { UserProvider } from './providers/UserProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Application />
+    <UserProvider>
+      <PostsProvider>
+        <Application />
+      </PostsProvider>
+    </UserProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
