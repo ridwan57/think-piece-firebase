@@ -25,7 +25,7 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 export const createUserProfileDocument = async (user, additionalData = {}) => {
     if (!user) return;
     const userRef = firestore.doc(`users/${user.uid}`)
-    const snapshot = userRef.get()
+    const snapshot = await userRef.get()
     if (!snapshot.exists) {
         const { displayName, email, photoURL } = user
         console.log('displayName, email, photoURL:', displayName, email, photoURL)
@@ -45,6 +45,8 @@ export const createUserProfileDocument = async (user, additionalData = {}) => {
 
         }
 
+    } else {
+        console.log('Already Exists')
     }
     return getUserDocument(user.uid)
 
@@ -54,7 +56,7 @@ export const getUserDocument = async (uid) => {
     if (!uid) return null
     try {
         const userDoc = await firestore.doc(`users/${uid}`).get()
-        console.log('userDoc:', userDoc)
+        console.log('userDoc:', userDoc.data())
         return { uid, ...userDoc.data() }
     } catch (error) {
         console.log('error:', error)

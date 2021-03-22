@@ -9,7 +9,7 @@ const belongToCurrentUser = (currentUser, postAuthor) => {
   console.log('currentUser:', currentUser)
   console.log(currentUser === postAuthor)
   if (!currentUser) return false
-  return currentUser === postAuthor
+  return currentUser.uid === postAuthor.uid
 }
 
 const Post = ({ title, content, user, createdAt, stars, id }) => {
