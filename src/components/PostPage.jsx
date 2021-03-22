@@ -49,12 +49,8 @@ const PostPage = ({ user }) => {
 
   return (
     <div>
-      <h1>POStpage {id}</h1>
-      {JSON.stringify(post)}
-      {JSON.stringify(comments)}
       {post && (
         <>
-          {' '}
           <Post {...post} />
           <Comments
             key={post.uid}
