@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router'
 import { firestore } from '../firebase'
 import { UserContext } from '../providers/UserProvider'
 import { withUser } from './withUser'
+import { collectIdsAndData } from '../utilities'
 
 const PostPage = ({ user }) => {
   const [post, setPost] = useState(null)
@@ -30,15 +31,8 @@ const PostPage = ({ user }) => {
 
   useEffect(() => {
     const unsubscribeFromComments = commentsRef.onSnapshot(snapshots => {
-      snapshots.forEach(snapshot => {
-        setComments(prev => [
-          ...prev,
-          {
-            uid: snapshot.id,
-            ...snapshot.data()
-          }
-        ])
-      })
+      const comments = collectIdsAndData(snapshots)
+      setComments(comments)
     })
 
     return () => unsubscribeFromComments()

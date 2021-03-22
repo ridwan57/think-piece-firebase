@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from 'react'
 import { firestore } from '../firebase'
-import { fetchPosts } from '../utilities'
+import { collectIdsAndData } from '../utilities'
 export const PostsContext = createContext()
 
 export const PostsProvider = ({ children }) => {
@@ -9,7 +9,7 @@ export const PostsProvider = ({ children }) => {
 
   const postsListener = () => {
     const unsubscribeFromFirestore = postsRef.onSnapshot(snapshot => {
-      const allPosts = fetchPosts(snapshot)
+      const allPosts = collectIdsAndData(snapshot)
       setPosts(allPosts)
     })
     return unsubscribeFromFirestore

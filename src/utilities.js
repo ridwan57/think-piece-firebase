@@ -1,4 +1,4 @@
-export const fetchPosts = (snapshot) =>
+export const collectIdsAndData = (snapshot) =>
 (snapshot.docs.map(doc => ({
     ...doc.data(),
     id: doc.id
