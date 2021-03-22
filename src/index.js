@@ -6,15 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import Application from './components/Application';
 import { PostsProvider } from './providers/PostsProvider';
 import { UserProvider } from './providers/UserProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UserProvider>
-      <PostsProvider>
-        <Application />
-      </PostsProvider>
-    </UserProvider>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <React.StrictMode>
+      <UserProvider>
+        <PostsProvider>
+          <Application />
+        </PostsProvider>
+      </UserProvider>
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
